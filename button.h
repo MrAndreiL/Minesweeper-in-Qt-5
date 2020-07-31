@@ -5,17 +5,22 @@
 
 class Button:public QWidget 
 {
-	Q_OBJECT
+  Q_OBJECT
 public:
-	Button(QWidget *parent = 0, const char *name = 0);
+  Button(QWidget *parent = 0, const char *name = 0);
+  int state = 0;
+  /*
+  	3 states:
+  	0 -> default button, not discovered
+  	1 -> left clicked, can be bomb or number.
+  	2 -> right clicked (flagged)
+  */
 public slots:
-
+  void changeState();
 signals:
-
-protected:
-	void resizeEvent(QResizeEvent*);
+  void clicked();
 private:
-	QPushButton *button;
+  QPushButton *button;
 };
 
 #endif

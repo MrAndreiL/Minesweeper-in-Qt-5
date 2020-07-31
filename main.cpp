@@ -9,7 +9,7 @@
 class Minesweeper:public QWidget
 {
 public:
-  Minesweeper(QWidget *parent = 0, const char *name = 0, int bombs = 4);
+  Minesweeper(QWidget *parent = 0, const char *name = 0, int bombs = 15);
   int numBombs;
 private:
   QPushButton *quit;
@@ -20,13 +20,13 @@ private:
 Minesweeper::Minesweeper(QWidget *parent, const char *name, int bombs):QWidget(parent, Qt::Window)
 {
    // Set the window's default Size.
-   setMinimumSize(520, 520);
-   setMaximumSize(520, 520);
+   setMinimumSize(520, 400);
+   setMaximumSize(520, 400);
 
    // Simple quit button.
    quit = new QPushButton("Quit", this);
    quit->setFont(QFont("Times", 18, QFont::Bold));
-   quit->setGeometry(215, 470, 70, 30);
+   quit->setGeometry(215, 360, 70, 30);
    connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
 
    // Labels.
@@ -47,11 +47,11 @@ Minesweeper::Minesweeper(QWidget *parent, const char *name, int bombs):QWidget(p
 
    // Draw the main board.
    int startx = 40;
-   int starty = 35;
+   int starty = 30;
    for (int i = 0; i < 9; i++)
      for (int j = 0; j < 9; j++) {
    	 	values[i][j] = new Button(this);
-        values[i][j]->setGeometry(startx + (i + 1) * 40, starty + (j + 1) * 40, 40, 40);
+        values[i][j]->setGeometry(startx + (j + 1) * 40, starty + (i + 1) * 30, 40, 40);
      }
 }
 
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
    QApplication *app = new QApplication(argc, argv);
 
    Minesweeper *game = new Minesweeper();
-   game->setGeometry(500, 250, 520, 520);
+   game->setGeometry(500, 250, 400, 400);
    game->show();
 
    return app->exec();
