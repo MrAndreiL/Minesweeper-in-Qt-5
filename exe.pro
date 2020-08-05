@@ -7,3 +7,6 @@ QT += widgets
 SOURCES += main.cpp
 SOURCES += button.cpp
 HEADERS += button.h
+
+RESOURCES += \
+    res.qrc

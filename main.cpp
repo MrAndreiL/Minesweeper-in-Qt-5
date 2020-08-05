@@ -9,7 +9,7 @@
 class Minesweeper:public QWidget
 {
 public:
-  Minesweeper(QWidget *parent = 0, const char *name = 0, int bombs = 15);
+  Minesweeper(QWidget *parent = 0, const char *name = 0, int bombs = 10);
   int numBombs;
 private:
   QPushButton *quit;
