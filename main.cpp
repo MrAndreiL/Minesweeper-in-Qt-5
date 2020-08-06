@@ -2,6 +2,7 @@
 #include <QPushButton>
 #include <QFont>
 #include <QLabel>
+#include <QRandomGenerator>
 #include "button.h"
 
 
@@ -9,15 +10,17 @@
 class Minesweeper:public QWidget
 {
 public:
-  Minesweeper(QWidget *parent = 0, const char *name = 0, int bombs = 10);
-  int numBombs;
+  Minesweeper(QWidget *parent = 0, const char *name = 0, qint32 bombs = 10);
 private:
   QPushButton *quit;
   QLabel *labels[3];
+  QLabel *elements[9][9];
   Button *values[9][9];
+  qint32 table[9][9];
+  void getRandomBombs(qint32 table[9][9], qint32 bombs);
 };
 
-Minesweeper::Minesweeper(QWidget *parent, const char *name, int bombs):QWidget(parent, Qt::Window)
+Minesweeper::Minesweeper(QWidget *parent, const char *name, qint32 bombs):QWidget(parent, Qt::Window)
 {
    // Set the window's default Size.
    setMinimumSize(520, 400);
@@ -45,14 +48,39 @@ Minesweeper::Minesweeper(QWidget *parent, const char *name, int bombs):QWidget(p
    labels[2]->move(400, 25);
    labels[2]->setFont(QFont("Times", 13, QFont::Bold));
 
+   qint32 startx = 40;
+   qint32 starty = 30;
+   getRandomBombs(table, bombs);
+   for (qint32 i = 0; i < 9; i++)
+       for (qint32 j = 0; j < 9; j++) {
+         elements[i][j] = new QLabel(this);
+         elements[i][j]->setGeometry(startx + (j + 1) * 40, starty + (i + 1) * 30, 35, 30);
+         elements[i][j]->setStyleSheet("background-image: url(:/resources/img/bomb.jpg)");
+       }
+
    // Draw the main board.
-   int startx = 40;
-   int starty = 30;
-   for (int i = 0; i < 9; i++)
-     for (int j = 0; j < 9; j++) {
+   for (qint32 i = 0; i < 9; i++)
+     for (qint32 j = 0; j < 9; j++) {
    	 	values[i][j] = new Button(this);
         values[i][j]->setGeometry(startx + (j + 1) * 40, starty + (i + 1) * 30, 40, 40);
      }
+}
+
+void Minesweeper::getRandomBombs(qint32 table[9][9], qint32 bombs)
+{
+   for (qint32 i = 0; i < 9; i++)
+       for(qint32 j = 0; j < 9; j++)
+           table[i][j] = 0;
+
+   while(bombs > 0)
+   {
+       qint32 i = QRandomGenerator::global()->bounded(0, 8);
+       qint32 j = QRandomGenerator::global()->bounded(0, 8);
+       if (table[i][j] == 0) {
+           table[i][j] = 1;
+           bombs--;
+       }
+   }
 }
 
 int main(int argc, char **argv)
