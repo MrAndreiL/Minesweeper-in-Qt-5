@@ -2,6 +2,7 @@
 #define BUTTON_H
 #include <qwidget.h>
 #include <qpushbutton.h>
+#include <QMouseEvent>
 
 class Button:public QWidget 
 {
@@ -15,6 +16,8 @@ public:
   	1 -> left clicked, can be bomb or number.
   	2 -> right clicked (flagged)
   */
+protected:
+  void mousePressEvent(QMouseEvent *event);
 public slots:
   void changeState();
 signals:

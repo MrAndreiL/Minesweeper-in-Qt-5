@@ -13,6 +13,24 @@ Button::Button(QWidget *parent, const char *name):QWidget(parent, 0)
 
 void Button::changeState()
 {
-   state = 1;
-   button->setVisible(false);
+   if (state == 0) {
+       state = 1;
+       button->setVisible(false);
+   }
+}
+
+void Button::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::RightButton) {
+        if (state == 0)
+        {
+            state = 2;
+            button->setStyleSheet("background-image: url(:/resources/img/flag.png)");
+        }
+        else if (state == 2)
+        {
+            state = 0;
+            button->setStyleSheet("background-image: url(:/resources/img/button.png)");
+        }
+    }
 }
