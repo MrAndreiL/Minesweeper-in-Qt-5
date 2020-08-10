@@ -10,7 +10,8 @@
 class Minesweeper:public QWidget
 {
 public:
-  Minesweeper(QWidget *parent = 0, const char *name = 0, qint32 bombs = 10);
+  const qint32 bombs = 10;
+  Minesweeper(QWidget *parent = 0, const char *name = 0);
 private:
   QPushButton *quit;
   QLabel *labels[3];
@@ -19,9 +20,11 @@ private:
   qint32 table[9][9];
   void getRandomBombs(qint32 table[9][9], qint32 bombs);
   void setBoardValues(qint32 table[9][9]);
+protected:
+  void mousePressEvent(QMouseEvent *);
 };
 
-Minesweeper::Minesweeper(QWidget *parent, const char *name, qint32 bombs):QWidget(parent, Qt::Window)
+Minesweeper::Minesweeper(QWidget *parent, const char *name):QWidget(parent, Qt::Window)
 {
    // Set the window's default Size.
    setMinimumSize(520, 400);
@@ -129,6 +132,16 @@ void Minesweeper::setBoardValues(qint32 table[9][9])
                       if (table[newi][newj] == -1)
                           table[i][j]++;
               }
+}
+
+void Minesweeper::mousePressEvent(QMouseEvent *)
+{
+   qint32 count = 0;
+   for (qint32 i = 0; i < 9; i++)
+       for (qint32 j = 0; j < 9; j++)
+           if (table[i][j] == -1 && values[i][j]->state == 2)
+               count++;
+   labels[2]->setNum(bombs - count);
 }
 
 int main(int argc, char **argv)
